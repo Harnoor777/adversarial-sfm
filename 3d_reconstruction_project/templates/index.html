@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Reconstruction Studio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" class="theme-switch-input">
+        <label for="theme-switch" class="theme-switch-label">
+            <span class="theme-icon sun">☀️</span>
+            <span class="theme-icon moon">🌙</span>
+        </label>
+    </div>
+
+    <!-- Hero Section with Holographic Effect -->
+    <section class="hero-section" id="heroSection">
+        <canvas class="particles-canvas" id="particlesCanvas"></canvas>
+        <div class="hero-grid"></div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-icon">⚡</span>
+                <span class="badge-text">AI-Powered Technology</span>
+            </div>
+            
+            <h1 class="hero-title" id="heroTitle">
+                <span class="title-line">3D Reconstruction</span>
+                <span class="title-line">Studio</span>
+            </h1>
+            
+            <p class="hero-subtitle" id="heroSubtitle">
+                Generate photorealistic 3D models from multiple images
+            </p>
+            
+            <div class="hero-features">
+                <div class="feature-item">
+                    <span class="feature-icon">🎯</span>
+                    <span class="feature-text">High Precision</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">⚡</span>
+                    <span class="feature-text">Fast Processing</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">🔒</span>
+                    <span class="feature-text">100% Local</span>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <span class="scroll-text">Scroll to Upload</span>
+                <span class="scroll-arrow">↓</span>
+            </div>
+        </div>
+        
+        <div class="hero-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+    </section>
+
+    <div class="container">
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Zone -->
+            <div class="upload-section">
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">📁</div>
+                    <h3>Drag & Drop Images Here</h3>
+                    <p>or click to browse</p>
+                    <input type="file" id="fileInput" multiple accept="image/*" hidden>
+                    <button class="browse-btn" id="browseBtn">Select Images</button>
+                </div>
+
+                <!-- Image Preview Grid -->
+                <div class="preview-container" id="previewContainer">
+                    <h3 class="preview-title">Selected Images</h3>
+                    <div class="preview-grid" id="previewGrid"></div>
+                    <button class="upload-btn" id="uploadBtn">
+                        <span class="btn-text">Start Reconstruction</span>
+                        <span class="btn-icon">🚀</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status Section -->
+            <div class="status-section" id="statusSection">
+                <div class="status-card">
+                    <div class="status-icon" id="statusIcon">⏳</div>
+                    <h3 id="statusTitle">Ready</h3>
+                    <p id="statusMessage">Upload images to begin reconstruction</p>
+                    <div class="reconstruction-steps" id="reconstructionSteps" style="display: none;">
+                        <div class="step-item" id="step1">
+                            <span class="step-icon">📸</span>
+                            <span class="step-text">Loading images</span>
+                            <span class="step-status">⏳</span>
+                        </div>
+                        <div class="step-item" id="step2">
+                            <span class="step-icon">🔍</span>
+                            <span class="step-text">Detecting features</span>
+                            <span class="step-status">⏳</span>
+                        </div>
+                        <div class="step-item" id="step3">
+                            <span class="step-icon">🔗</span>
+                            <span class="step-text">Matching features</span>
+                            <span class="step-status">⏳</span>
+                        </div>
+                        <div class="step-item" id="step4">
+                            <span class="step-icon">📐</span>
+                            <span class="step-text">Estimating structure</span>
+                            <span class="step-status">⏳</span>
+                        </div>
+                        <div class="step-item" id="step5">
+                            <span class="step-icon">☁️</span>
+                            <span class="step-text">Creating point cloud</span>
+                            <span class="step-status">⏳</span>
+                        </div>
+                        <div class="step-item" id="step6">
+                            <span class="step-icon">🔷</span>
+                            <span class="step-text">Generating mesh</span>
+                            <span class="step-status">⏳</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar" id="progressBar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reconstruction Output Section -->
+            <div class="output-section" id="outputSection" {% if not latest_model %}style="display: none;"{% endif %}>
+                <div class="output-card">
+                    <div class="output-header">
+                        <div class="output-icon">📦</div>
+                        <h3 class="output-title">Reconstruction Output</h3>
+                    </div>
+                    
+                    <div class="output-content">
+                        <div class="model-preview">
+                            <div class="model-icon">🔷</div>
+                            <div class="model-info">
+                                <div class="model-label">3D Model File</div>
+                                <div class="model-filename" id="modelFilename">
+                                    {% if latest_model %}{{ latest_model }}{% else %}No model generated yet{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="output-actions">
+                            <button class="download-btn" id="downloadBtn" {% if not latest_model %}disabled{% endif %}>
+                                <span class="btn-icon">⬇️</span>
+                                <span class="btn-text">Download Model</span>
+                            </button>
+                            <div class="model-stats" id="modelStats">
+                                <div class="stat-item">
+                                    <span class="stat-icon">📊</span>
+                                    <span class="stat-text">PLY Format</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-icon">✅</span>
+                                    <span class="stat-text">Ready</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Final Year Computer Science Project | 3D Reconstruction System</p>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+        <p class="loading-text">Processing images...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+================================================================================
+3D RECONSTRUCTION STUDIO - QUICK START GUIDE
+================================================================================
+
+STEP 1: INSTALL DEPENDENCIES
+-----------------------------
+Run this command in your terminal:
+
+    pip install -r requirements.txt
+
+This installs: Flask, OpenCV, Open3D, NumPy, Pillow, Trimesh
+
+
+STEP 2: TEST THE RECONSTRUCTION (OPTIONAL)
+-------------------------------------------
+Verify everything works with synthetic test images:
+
+    python test_reconstruction.py
+
+This will create test images and run the full reconstruction pipeline.
+
+
+STEP 3: START THE WEB APPLICATION
+----------------------------------
+Run the Flask server:
+
+    python app.py
+
+You should see:
+    * Running on http://0.0.0.0:5000
+
+
+STEP 4: OPEN IN BROWSER
+------------------------
+Navigate to:
+
+    http://localhost:5000
+
+
+STEP 5: USE THE APPLICATION
+----------------------------
+1. Take 5-10 photos of an object from different angles
+2. Drag and drop images into the upload zone
+3. Click "Start Reconstruction"
+4. Wait for processing (10-30 seconds)
+5. Download your 3D model (.ply file)
+
+
+VIEWING YOUR 3D MODEL
+---------------------
+Open the .ply file in:
+- MeshLab (free)
+- Blender (free)
+- Windows 3D Viewer (built-in)
+- Online: https://3dviewer.net/
+
+
+TIPS FOR BEST RESULTS
+----------------------
+✓ Use 5-10 images
+✓ Move around the object in a circle
+✓ Keep 60-70% overlap between consecutive photos
+✓ Use good lighting
+✓ Avoid motion blur
+✓ Choose textured objects (not plain surfaces)
+
+
+TROUBLESHOOTING
+---------------
+Problem: "No module named 'cv2'"
+Solution: pip install opencv-python
+
+Problem: "Need at least 2 images"
+Solution: Upload more images (5-10 recommended)
+
+Problem: Poor reconstruction quality
+Solution: Take more photos with better overlap and lighting
+
+
+FOR MORE DETAILS
+----------------
+- README.md - Full documentation
+- SETUP.md - Detailed installation guide
+- test_reconstruction.py - Test the pipeline
+
+
+================================================================================
+Built for Computer Science Final Year Project
+================================================================================

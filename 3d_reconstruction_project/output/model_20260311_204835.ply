@@ -1,0 +1,21 @@
+ply
+format ascii 1.0
+comment 3D Reconstruction Studio - Placeholder Model
+comment Generated from 6 images
+comment This is a placeholder - actual reconstruction will be implemented
+element vertex 8
+property float x
+property float y
+property float z
+property uchar red
+property uchar green
+property uchar blue
+end_header
+0 0 0 0 212 255
+1 0 0 0 212 255
+1 1 0 0 212 255
+0 1 0 0 212 255
+0 0 1 123 47 247
+1 0 1 123 47 247
+1 1 1 123 47 247
+0 1 1 123 47 247
