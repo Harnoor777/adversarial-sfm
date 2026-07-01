@@ -1,0 +1,3 @@
+Chamfer Distance (clean vs attacked): 36.054762
+Clean point count: 1639
+Attacked point count: 2768

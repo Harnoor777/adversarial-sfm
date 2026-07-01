@@ -97,10 +97,10 @@ def main():
     input_folder = r"E:\adversarial-sfm\clean_images"
     
     # --- Output folder: perturbed images saved here ---
-    output_folder = r"E:\adversarial-sfm\results\perturbed_images"
+    output_folder = r"E:\adversarial-sfm\results\perturbed_eps003"
     
     # Process all images
-    process_folder(input_folder, output_folder, epsilon=0.02)
+    process_folder(input_folder, output_folder, epsilon=0.03)
     
     # Save comparison using first image as sample
     valid_extensions = ('.jpg', '.jpeg', '.png', '.bmp')
